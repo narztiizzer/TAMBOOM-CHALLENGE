@@ -14,7 +14,11 @@
         android:id="@+id/image"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        tools:srcCompat="@tools:sample/avatars" />
+        android:maxWidth="@dimen/image_max_width"
+        android:maxHeight="@dimen/image_max_width"
+        android:minWidth="@dimen/image_max_width"
+        android:minHeight="@dimen/image_max_width"
+        app:srcCompat="@drawable/photography" />
 
     <TextView
         android:id="@+id/title"
@@ -23,5 +27,6 @@
         android:layout_gravity="center"
         android:layout_weight="1"
         android:padding="@dimen/app_8dp"
-        android:text="TextView" />
+        android:text="TextView"
+        android:textSize="18sp" />
 </LinearLayout>

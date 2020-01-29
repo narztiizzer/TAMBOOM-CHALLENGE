@@ -8,4 +8,5 @@
     <dimen name="button_width">96dp</dimen>
     <dimen name="button_height">42dp</dimen>
     <dimen name="button_success_width">142dp</dimen>
+    <dimen name="image_max_width">124dp</dimen>
 </resources>

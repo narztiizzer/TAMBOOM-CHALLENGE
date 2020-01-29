@@ -35,8 +35,6 @@ class VMDonation(application: Application): AndroidViewModel(application) {
         this.charityId = intent.getLongExtra(ID, 0)
     }
 
-
-
     fun validateInput(name: String?, amount: String?) {
         return when {
             name.isNullOrEmpty() -> {

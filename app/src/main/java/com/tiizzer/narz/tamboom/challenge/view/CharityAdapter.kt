@@ -4,6 +4,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseAdapter
+import com.bumptech.glide.Glide
 import com.tiizzer.narz.tamboom.challenge.R
 import com.tiizzer.narz.tamboom.challenge.model.CharityViewData
 import kotlinx.android.synthetic.main.charity_item_layout.view.*
@@ -25,7 +26,14 @@ class CharityAdapter: BaseAdapter() {
             viewHolder = view.tag as ItemViewHolder?
         }
 
-        viewHolder?.title?.text = "nnmk;. $position"
+        val item = getItem(position)
+        viewHolder?.title?.text = item.name
+
+        Glide
+            .with(parent.context)
+            .load(item.imageURL)
+            .into(viewHolder?.image!!)
+
         return view!!
     }
 
