@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.snackbar.Snackbar
+import com.tiizzer.narz.tamboom.challenge.DonationActivity
 import com.tiizzer.narz.tamboom.challenge.R
 import com.tiizzer.narz.tamboom.challenge.viewmodel.VMDonation
 import kotlinx.android.synthetic.main.donation_fragment.view.*
@@ -50,7 +51,7 @@ class DonationFragment : Fragment() {
         })
 
         getViewModel().onRequestDonationSuccess().observe(this.activity!!, Observer {
-
+            println("sdcsdvs")
         })
 
         getViewModel().onShowMessage().observe(this.activity!!, Observer {
@@ -59,6 +60,14 @@ class DonationFragment : Fragment() {
                     this.dismiss()
                 }
             }.show()
+        })
+
+        getViewModel().onShowLoadingDialog().observe(this.activity!!, Observer {
+            (this.activity!! as DonationActivity).startLoading()
+        })
+
+        getViewModel().onHideLoadingDialog().observe(this.activity!!, Observer {
+            (this.activity!! as DonationActivity).stopLoading()
         })
     }
 
