@@ -6,6 +6,7 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import co.omise.android.ui.CardNameEditText
 import com.tiizzer.narz.tamboom.challenge.R
 import com.tiizzer.narz.tamboom.challenge.model.Donation
 import com.tiizzer.narz.tamboom.challenge.provider.AppRequestProvider
@@ -35,9 +36,9 @@ class VMDonation(application: Application): AndroidViewModel(application) {
         this.charityId = intent.getLongExtra(ID, 0)
     }
 
-    fun validateInput(name: String?, amount: String?) {
+    fun validateInput(name: CardNameEditText, amount: String?) {
         return when {
-            name.isNullOrEmpty() -> {
+            !name.isValid -> {
                 val message = getApplication<Application>().getString(R.string.donation_validate_name_fail)
                 this.showMessage.postValue(message)
             }
@@ -49,7 +50,7 @@ class VMDonation(application: Application): AndroidViewModel(application) {
                 val value = this.reformatAmount(amount)
                 if(value > 0) {
                     this.makeDonate(Donation(
-                        name = name,
+                        name = name.cardName,
                         token = getApplication<Application>().getString(R.string.app_token),
                         amount = value
                     ))

@@ -39,7 +39,7 @@ class DonationFragment : Fragment() {
         }
 
         view!!.confirm_button.setOnClickListener {
-            this.getViewModel().validateInput(view!!.name_input.cardName, view!!.amount_input.text.toString())
+            this.getViewModel().validateInput(view!!.name_input, view!!.amount_input.text.toString())
         }
 
     }
