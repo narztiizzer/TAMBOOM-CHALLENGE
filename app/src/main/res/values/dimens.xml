@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="app_4dp">4dp</dimen>
+    <dimen name="app_8dp">8dp</dimen>
+    <dimen name="app_16dp">16dp</dimen>
+    <dimen name="app_32dp">32dp</dimen>
+    <dimen name="dialog_width">384dp</dimen>
+    <dimen name="button_width">96dp</dimen>
+    <dimen name="button_height">42dp</dimen>
+</resources>
