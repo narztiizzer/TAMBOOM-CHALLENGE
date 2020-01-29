@@ -51,7 +51,10 @@ class DonationFragment : Fragment() {
         })
 
         getViewModel().onRequestDonationSuccess().observe(this.activity!!, Observer {
-            println("sdcsdvs")
+            activity!!.supportFragmentManager.
+                beginTransaction().
+                replace(R.id.container, SuccessFragment()).
+                commit()
         })
 
         getViewModel().onShowMessage().observe(this.activity!!, Observer {

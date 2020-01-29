@@ -7,4 +7,5 @@
     <dimen name="dialog_width">384dp</dimen>
     <dimen name="button_width">96dp</dimen>
     <dimen name="button_height">42dp</dimen>
+    <dimen name="button_success_width">142dp</dimen>
 </resources>
