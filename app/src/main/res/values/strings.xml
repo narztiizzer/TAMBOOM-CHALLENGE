@@ -6,8 +6,8 @@
     <string name="request_charities_url">TAMBOOM-CHALLENGE</string>
     <string name="request_donations_url">TAMBOOM-CHALLENGE</string>
     <string name="request_charities_mock_url">https://dl.dropboxusercontent.com/s/7n2k56oy02u793z/charity-mock-data.json</string>
-    <string name="request_donations_mock_url">https://dl.dropboxusercontent.com/s/7n2k56oy02u793z/charity-mock-data.json</string>
-    <string name="request_charities_error_message">ไม่สามารถโหลดข้อมูลได้</string>
+    <string name="request_donations_mock_url">https://dl.dropboxusercontent.com/s/lqys2iv18ewekj9/donate-success-mock-data.json</string>
+    <string name="request_charities_error_message">Cannot load data, please try again.</string>
     <string name="donation_title">Donate</string>
     <string name="donation_confirm_title">Confirm</string>
     <string name="donation_cancel_title">Cancel</string>
