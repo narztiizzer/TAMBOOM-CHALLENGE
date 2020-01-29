@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import com.google.android.material.snackbar.Snackbar
 import com.tiizzer.narz.tamboom.challenge.R
 import com.tiizzer.narz.tamboom.challenge.viewmodel.VMDonation
 import kotlinx.android.synthetic.main.donation_fragment.view.*
@@ -40,13 +41,24 @@ class DonationFragment : Fragment() {
             this.getViewModel().validateInput(view!!.name_input.cardName, view!!.amount_input.text.toString())
         }
 
-
     }
 
     private fun setObserver() {
         getViewModel().setIntentData(this.activity!!.intent)
         getViewModel().onValidateInputPass().observe(this.activity!!, Observer {
 
+        })
+
+        getViewModel().onRequestDonationSuccess().observe(this.activity!!, Observer {
+
+        })
+
+        getViewModel().onShowMessage().observe(this.activity!!, Observer {
+            Snackbar.make(view!!.fragment_container, it, Snackbar.LENGTH_LONG).apply {
+                setAction(getString(R.string.app_dissmiss)) {
+                    this.dismiss()
+                }
+            }.show()
         })
     }
 

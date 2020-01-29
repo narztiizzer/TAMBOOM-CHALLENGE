@@ -1,5 +1,7 @@
 <resources>
     <string name="app_name">TAMBOOM-CHALLENGE</string>
+    <string name="app_token">tokn_test_123</string>
+    <string name="app_dissmiss">Dismiss</string>
     <string name="request_charities_url">TAMBOOM-CHALLENGE</string>
     <string name="request_donations_url">TAMBOOM-CHALLENGE</string>
     <string name="request_charities_mock_url">https://dl.dropboxusercontent.com/s/7n2k56oy02u793z/charity-mock-data.json</string>
@@ -10,4 +12,10 @@
     <string name="donation_cancel_title">Cancel</string>
     <string name="donation_name_hint">Full name</string>
     <string name="donation_amount_hint">Amount</string>
+    <string name="donation_validate_name_fail">Please enter your name.</string>
+    <string name="donation_validate_amount_empty">Please enter amount.</string>
+    <string name="donation_validate_amount_fail">Amount must be more than zero.</string>
+    <string name="donation_error">Donation problem, please try again later.</string>
+    <string name="loading_title">LOADING</string>
+    <string name="loading_message">Please wait…</string>
 </resources>

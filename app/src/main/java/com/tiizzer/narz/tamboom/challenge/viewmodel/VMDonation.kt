@@ -5,6 +5,12 @@ import android.content.Intent
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
+import com.tiizzer.narz.tamboom.challenge.R
+import com.tiizzer.narz.tamboom.challenge.model.Donation
+import com.tiizzer.narz.tamboom.challenge.provider.AppRequestProvider
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import java.lang.Exception
 
 class VMDonation(application: Application): AndroidViewModel(application) {
@@ -21,22 +27,65 @@ class VMDonation(application: Application): AndroidViewModel(application) {
 
     fun onValidateInputPass(): LiveData<Boolean> = this.validateInputPass
     fun onRequestDonationSuccess(): LiveData<Void> = this.requestDonationSuccess
+    fun onShowMessage(): LiveData<String> = this.showMessage
+    fun onShowLoadingDialog(): LiveData<Void> = this.showLoadingDialog
+    fun onHideLoadingDialog(): LiveData<Void> = this.hideLoadingDialog
 
     fun setIntentData(intent: Intent){
         this.charityId = intent.getLongExtra(ID, 0)
     }
 
-    fun validateInput(name: String?, amount: String?): Boolean {
+
+
+    fun validateInput(name: String?, amount: String?) {
         return when {
-            name.isNullOrEmpty() -> { false }
-            amount.isNullOrEmpty() -> { false }
-            else -> {
-                var tempValue = amount
-                if(amount.endsWith(".")) tempValue = "${tempValue}0"
-                if(tempValue.startsWith(".")) tempValue = "0$tempValue"
-                val value = tempValue.toDouble()
-                value > 0
+            name.isNullOrEmpty() -> {
+                val message = getApplication<Application>().getString(R.string.donation_validate_name_fail)
+                this.showMessage.postValue(message)
             }
+            amount.isNullOrEmpty() -> {
+                val message = getApplication<Application>().getString(R.string.donation_validate_amount_empty)
+                this.showMessage.postValue(message)
+            }
+            else -> {
+                val value = this.reformatAmount(amount)
+                if(value > 0) {
+                    this.makeDonate(Donation(
+                        name = name,
+                        token = getApplication<Application>().getString(R.string.app_token),
+                        amount = value
+                    ))
+                } else {
+                    val message = getApplication<Application>().getString(R.string.donation_validate_amount_fail)
+                    this.showMessage.postValue(message)
+                }
+            }
+        }
+    }
+
+    private fun reformatAmount(amount: String): Double {
+        var tempValue = amount
+        if(amount.endsWith(".")) tempValue = "${tempValue}0"
+        if(tempValue.startsWith(".")) tempValue = "0$tempValue"
+        return tempValue.toDouble()
+    }
+
+    private fun makeDonate(donate: Donation) {
+        viewModelScope.launch(Dispatchers.Default){
+            this@VMDonation.showLoadingDialog.postValue(null)
+            try {
+                val response = AppRequestProvider.getDonationRequest(this@VMDonation.getApplication(), donate)
+                if(response.statusCode == 200){
+                    this@VMDonation.requestDonationSuccess.postValue(null)
+                } else {
+                    val message = getApplication<Application>().getString(R.string.donation_error)
+                    this@VMDonation.showMessage.postValue(message)
+                }
+            } catch (e: Exception){
+                val message = getApplication<Application>().getString(R.string.donation_error)
+                this@VMDonation.showMessage.postValue(message)
+            }
+            this@VMDonation.hideLoadingDialog.postValue(null)
         }
     }
 }

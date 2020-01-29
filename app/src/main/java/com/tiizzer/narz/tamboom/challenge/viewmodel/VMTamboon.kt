@@ -26,35 +26,28 @@ class VMTamboon(application: Application): AndroidViewModel(application) {
     }
 
     fun onCharitiesRetrieveSuccess(): LiveData<List<CharityViewData>> = this.charitiesRetrieveSuccess
+    fun onShowLoadingDialog(): LiveData<Void> = this.showLoadingDialog
+    fun onHideLoadingDialog(): LiveData<Void> = this.hideLoadingDialog
+    fun onShowMessage(): LiveData<String> = this.showMessage
 
     fun getCharities(){
         viewModelScope.launch {
             this.launch(Dispatchers.Default) {
-                val response = AppRequestProvider.getCharitiesRequest(getApplication())
                 this@VMTamboon.showLoadingDialog.postValue(null)
-                if(response.statusCode == 200) {
-                    val charities = Gson().parse<ArrayList<Charity>>(response.text)
-                    this@VMTamboon.charitiesRetrieveSuccess.postValue(charities.map { CharityViewData(it.id, it.name, it.logo_url) })
-                } else {
+                try {
+                    val response = AppRequestProvider.getCharitiesRequest(getApplication())
+                    if(response.statusCode == 200) {
+                        val charities = Gson().parse<ArrayList<Charity>>(response.text)
+                        this@VMTamboon.charitiesRetrieveSuccess.postValue(charities.map { CharityViewData(it.id, it.name, it.logo_url) })
+                    } else {
+                        val message = this@VMTamboon.getApplication<Application>().getString(R.string.request_charities_error_message)
+                        this@VMTamboon.showMessage.postValue(message)
+                    }
+                } catch (e: Exception){
                     val message = this@VMTamboon.getApplication<Application>().getString(R.string.request_charities_error_message)
                     this@VMTamboon.showMessage.postValue(message)
                 }
                 this@VMTamboon.hideLoadingDialog.postValue(null)
-            }
-        }
-    }
-
-    fun makeDonation(){
-        viewModelScope.launch {
-            this.launch(Dispatchers.Default) {
-                val response = AppRequestProvider.getCharitiesRequest(getApplication())
-                if(response.statusCode == 200) {
-                    val charities = Gson().parse<ArrayList<Charity>>(response.text)
-//                    this@VMTamboon.charitiesRetrieveSuccess.postValue(charities)
-                } else {
-                    val message = this@VMTamboon.getApplication<Application>().getString(R.string.request_charities_error_message)
-                    this@VMTamboon.showMessage.postValue(message)
-                }
             }
         }
     }

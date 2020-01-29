@@ -1,5 +1,6 @@
 package com.tiizzer.narz.tamboom.challenge.view
 
+import android.app.ProgressDialog
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -8,14 +9,15 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import com.google.android.material.snackbar.Snackbar
 import com.tiizzer.narz.tamboom.challenge.DonationActivity
 import com.tiizzer.narz.tamboom.challenge.MainActivity
 import com.tiizzer.narz.tamboom.challenge.R
-import com.tiizzer.narz.tamboom.challenge.model.Charity
 import com.tiizzer.narz.tamboom.challenge.model.CharityViewData
 import com.tiizzer.narz.tamboom.challenge.viewmodel.VMDonation
 import com.tiizzer.narz.tamboom.challenge.viewmodel.VMTamboon
 import kotlinx.android.synthetic.main.tamboon_fragment.*
+import kotlinx.android.synthetic.main.tamboon_fragment.view.*
 
 class TamboonFragment: Fragment() {
     private val vmFragment: VMTamboon by lazy { ViewModelProvider.AndroidViewModelFactory.getInstance(this.activity!!.application!!).create(
@@ -35,6 +37,22 @@ class TamboonFragment: Fragment() {
     private fun setObserver(){
         getViewModel().onCharitiesRetrieveSuccess().observe(this.activity!!, Observer { charities ->
             setCharitiesList(charities)
+        })
+
+        getViewModel().onShowMessage().observe(this.activity!!, Observer {
+            Snackbar.make(view!!.fragment_container, it, Snackbar.LENGTH_LONG).apply {
+                setAction(getString(R.string.app_dissmiss)) {
+                    this.dismiss()
+                }
+            }.show()
+        })
+
+        getViewModel().onShowLoadingDialog().observe(this.activity!!, Observer {
+            (this.activity!! as MainActivity).startLoading()
+        })
+
+        getViewModel().onHideLoadingDialog().observe(this.activity!!, Observer {
+            (this.activity!! as MainActivity).stopLoading()
         })
     }
 
