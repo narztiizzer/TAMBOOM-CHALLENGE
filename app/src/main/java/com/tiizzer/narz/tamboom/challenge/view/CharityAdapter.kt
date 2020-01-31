@@ -5,6 +5,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseAdapter
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.bumptech.glide.request.RequestOptions
 import com.tiizzer.narz.tamboom.challenge.R
 import com.tiizzer.narz.tamboom.challenge.model.CharityViewData
 import kotlinx.android.synthetic.main.charity_item_layout.view.*
@@ -32,6 +34,7 @@ class CharityAdapter: BaseAdapter() {
         Glide
             .with(parent.context)
             .load(item.imageURL)
+            .apply(RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.NONE))
             .into(viewHolder?.image!!)
 
         return view!!

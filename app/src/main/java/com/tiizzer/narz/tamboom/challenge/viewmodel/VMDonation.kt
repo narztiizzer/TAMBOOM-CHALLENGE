@@ -7,7 +7,10 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import co.omise.android.ui.CardNameEditText
+import com.google.gson.Gson
 import com.tiizzer.narz.tamboom.challenge.R
+import com.tiizzer.narz.tamboom.challenge.extension.gson.parse
+import com.tiizzer.narz.tamboom.challenge.model.DonateResult
 import com.tiizzer.narz.tamboom.challenge.model.Donation
 import com.tiizzer.narz.tamboom.challenge.provider.AppRequestProvider
 import kotlinx.coroutines.Dispatchers
@@ -74,10 +77,14 @@ class VMDonation(application: Application): AndroidViewModel(application) {
             this@VMDonation.showLoadingDialog.postValue(null)
             try {
                 val response = AppRequestProvider.getDonationRequest(this@VMDonation.getApplication(), donate)
+                val data  = Gson().parse<DonateResult>(response.text)
                 if(response.statusCode == 200){
-                    this@VMDonation.requestDonationSuccess.postValue(null)
+                    if(data.success)
+                        this@VMDonation.requestDonationSuccess.postValue(null)
+                    else
+                        this@VMDonation.showMessage.postValue(data.error_message)
                 } else {
-                    val message = getApplication<Application>().getString(R.string.donation_error)
+                    val message = data.error_message ?: getApplication<Application>().getString(R.string.donation_error)
                     this@VMDonation.showMessage.postValue(message)
                 }
             } catch (e: Exception){

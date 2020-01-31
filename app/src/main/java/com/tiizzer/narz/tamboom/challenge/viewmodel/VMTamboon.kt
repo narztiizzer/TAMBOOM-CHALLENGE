@@ -10,6 +10,7 @@ import com.tiizzer.narz.tamboom.challenge.R
 import com.tiizzer.narz.tamboom.challenge.extension.gson.parse
 import com.tiizzer.narz.tamboom.challenge.model.Charity
 import com.tiizzer.narz.tamboom.challenge.model.CharityViewData
+import com.tiizzer.narz.tamboom.challenge.model.CharityWrapper
 import com.tiizzer.narz.tamboom.challenge.provider.AppRequestProvider
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -37,8 +38,8 @@ class VMTamboon(application: Application): AndroidViewModel(application) {
                 try {
                     val response = AppRequestProvider.getCharitiesRequest(getApplication())
                     if(response.statusCode == 200) {
-                        val charities = Gson().parse<ArrayList<Charity>>(response.text)
-                        this@VMTamboon.charitiesRetrieveSuccess.postValue(charities.map { CharityViewData(it.id, it.name, it.logo_url) })
+                        val charities = Gson().parse<CharityWrapper>(response.text)
+                        this@VMTamboon.charitiesRetrieveSuccess.postValue(charities.data.map { CharityViewData(it.id, it.name, it.logo_url) })
                     } else {
                         val message = this@VMTamboon.getApplication<Application>().getString(R.string.request_charities_error_message)
                         this@VMTamboon.showMessage.postValue(message)

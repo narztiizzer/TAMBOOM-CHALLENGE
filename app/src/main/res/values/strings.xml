@@ -5,8 +5,8 @@
     <string name="app_back">BACK</string>
     <string name="request_charities_url">/charities</string>
     <string name="request_donations_url">/donations</string>
-    <string name="request_charities_mock_url">https://dl.dropboxusercontent.com/s/7n2k56oy02u793z/charity-mock-data.json</string>
-    <string name="request_donations_mock_url">https://dl.dropboxusercontent.com/s/lqys2iv18ewekj9/donate-success-mock-data.json</string>
+    <string name="request_charities_mock_url">https://virtserver.swaggerhub.com/chakritw/tamboon-api/1.0.0/charities</string>
+    <string name="request_donations_mock_url">https://virtserver.swaggerhub.com/chakritw/tamboon-api/1.0.0/donations</string>
     <string name="request_charities_error_message">Cannot load data, please try again.</string>
     <string name="donation_title">Donate</string>
     <string name="donation_confirm_title">Confirm</string>
